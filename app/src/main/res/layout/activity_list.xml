@@ -4,71 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModelList"
             type="com.example.evi.list.ListViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_F3F3F3"
-        tools:context=".list.ListActivity">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/text_search"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/background_search"
-            android:drawableStart="@drawable/ic_search_gray"
-            android:drawablePadding="17dp"
-            android:hint="@string/cari"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:text="@={viewModelList.keyword}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_F3F3F3"
+            tools:context=".list.ListActivity">
 
-        <TextView
-            android:id="@+id/text_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModelList.filter}"
-            android:visibility="@{viewModelList.showFilter ? View.VISIBLE : View.GONE}"
-            android:layout_marginTop="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_search" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/text_search"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/background_search"
+                android:drawableStart="@drawable/ic_search_gray"
+                android:drawablePadding="17dp"
+                android:hint="@string/cari"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:text="@={viewModelList.keyword}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:nestedScrollingEnabled="true"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_filter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_list" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/button_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_outline_gray"
+                android:drawableStart="@mipmap/icon_filter"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/firasans_regular"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="3sp"
+                android:padding="7dp"
+                android:text="@{viewModelList.textFilter}"
+                android:textColor="@color/black_484848"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_search" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_filter"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_filter_list_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/button_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/background_outline_gray"
+                android:drawableStart="@drawable/ic_filter_list_black_24dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/firasans_regular"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="3sp"
+                android:padding="7dp"
+                android:text="@string/sort"
+                android:textColor="@color/black_484848"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_search" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="true"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_filter"
+                tools:listitem="@layout/item_list" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

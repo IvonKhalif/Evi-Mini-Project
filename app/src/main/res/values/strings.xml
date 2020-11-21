@@ -10,5 +10,11 @@
     <string name="death">Meninggal</string>
     <string name="cari">Cari...</string>
     <string name="select_province">Pilih Provinsi</string>
+    <string name="province">Provinsi</string>
+    <string name="confirmed_case">Kasus Terkonfirmasi</string>
+    <string name="sorting">Urutkan</string>
     <string name="select">Pilih</string>
+    <string name="all">Semua</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
 </resources>

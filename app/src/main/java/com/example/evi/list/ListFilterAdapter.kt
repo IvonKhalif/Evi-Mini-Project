@@ -64,13 +64,7 @@ class ListFilterAdapter(
             binding.root.clicks()
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe {
-                    if (selectedFilter == features.attributes.Provinsi) {
-                        binding.textProvinceFilter.setBackgroundResource(R.drawable.background_outline_gray)
-                        listener.onSelectFilter("")
-                    } else {
-                        binding.textProvinceFilter.setBackgroundResource(R.drawable.background_outline_red)
                         listener.onSelectFilter(features.attributes.Provinsi)
-                    }
                 }
         }
 

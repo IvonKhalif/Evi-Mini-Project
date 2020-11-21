@@ -15,9 +15,10 @@ class ListViewModel: ViewModel() {
     var dataList = MutableLiveData<ArrayList<Features>>()
     var keyword = MutableLiveData<String>()
     var filter = MutableLiveData<String>("")
-    val showFilter = Transformations.map(filter){
-        it.isNotEmpty()
+    var textFilter = Transformations.map(filter){
+        if (it == "") "Filter" else it
     }
+    var isSortByProvince = MutableLiveData<Boolean>(true)
     fun loadData(){
         val requestApi = ApiClient.requestInstance()
             .create(ApiInterface::class.java)
@@ -27,33 +28,34 @@ class ListViewModel: ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe{
-//                    val list = it.features!!.sortedWith(compareBy({feature ->
-//                        feature.attributes!!.Kasus_Posi
-//                    }, {feature ->
-//                        feature.attributes!!.Provinsi
-//                    }))
-
                     dataList.value = it.features as ArrayList<Features>?
                 }
         )
     }
 
-    fun sortByProvinceList(): List<Features>{
-        return dataList.value!!.sortedBy { features ->
-            selector(features)
+    fun sortList(): List<Features>{
+        return if (isSortByProvince.value!!) {
+            dataList.value!!.sortedBy { features ->
+                selector(features)
+            }
+        } else {
+            dataList.value!!.sortedByDescending {features ->
+                sortingConfirmed(features)
+            }
         }
     }
 
     private fun selector(features: Features): String = features.attributes!!.Provinsi
+    private fun sortingConfirmed(features: Features): Int = features.attributes!!.Kasus_Posi
 
     fun getSearchList(): List<Features> {
-        return sortByProvinceList().filter { features ->
+        return sortList().filter { features ->
             features.attributes!!.Provinsi.toLowerCase().contains(keyword.value!!)
         }
     }
 
     fun getFilterList(): List<Features> {
-        return sortByProvinceList().filter { features ->
+        return sortList().filter { features ->
             features.attributes!!.Provinsi == (filter.value!!)
         }
     }
