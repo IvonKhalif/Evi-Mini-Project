@@ -5,10 +5,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -127,6 +130,18 @@ class ListActivity : AppCompatActivity() {
             .subscribe {
                 showSortingBottomSheet()
             }
+
+        binding.textSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(text: TextView?, actionId: Int, keyEvent: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    hideKeyboard(binding.textSearch)
+
+                    return true
+                }
+                return false
+            }
+
+        })
     }
 
     private fun showSortingBottomSheet() {
@@ -207,10 +222,15 @@ class ListActivity : AppCompatActivity() {
         if (ev?.action == MotionEvent.ACTION_UP) {
             val view = currentFocus
             if (view is EditText) {
-                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                hideKeyboard(view)
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    private fun hideKeyboard(view: EditText) {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
